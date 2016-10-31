@@ -1,0 +1,4 @@
+*.caffemodel
+checkpoint
+*.ckpt
+*.npy
