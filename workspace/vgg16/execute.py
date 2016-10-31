@@ -14,6 +14,8 @@ LOAD_FROM_NPY = False
 LOAD_FROM_CHECKPOINT = True
 SAVE_TO_CHECKPOINT = False
 
+NPY_PATH = 'model/tf_net.npy'
+
 t = time.time()
 
 IMG_DIMENSIONS = (224, 224)
@@ -47,7 +49,7 @@ with tf.Session() as sess:
 
     if LOAD_FROM_NPY:
         print("Loading from npy")
-        net.load('tf_net.npy', sess)
+        net.load(NPY_PATH, sess)
     if LOAD_FROM_CHECKPOINT:
         print("Loading from checkpoint")
         t = time.time()
