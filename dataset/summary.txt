@@ -1,0 +1,70 @@
+images
+    HEADER
+        1  ImageID
+        2  Subset
+        3  OriginalURL
+        4  OriginalLandingURL
+        5  License
+        6  AuthorProfileURL
+        7  Author
+        8  Title
+        9  OriginalSize
+        10 OriginalMD5
+        11 Thumbnail300KURL
+    train
+        Total: 9.011.220
+        Size: 18.3 TB
+    validation
+        Total: 167.057
+        Size: 309.9 GB
+
+annotations
+    HEADER
+        1 ImageID
+        2 Source
+        3 LabelName
+        4 Confidence
+    human
+        validation
+            Total: 1.741.385
+            Confidences:
+                0.0 -> 548.741
+                1.0 -> 1.192.643
+
+    machine
+        validation
+            Total: 2.060.221
+            Confidences:
+                0.5     14.5%
+                0.6     22.2%
+                0.7     20.5%
+                0.8     17.4%
+                0.9     18.4%
+                1.0      7.0%
+        train
+            Total: 79.196.416
+            Confidences:
+                0.5 -> 9.757.582
+                0.6 -> 17.439.220
+                0.7 -> 16.896.852
+                0.8 -> 16.245.045
+                0.9 -> 15.695.768
+                1.0 -> 3.161.948
+
+- labels per image
+- images per label
+- ratio: wrong/right labels
+- labels that we're mispredicted often
+
+
+# To get headers of file
+head -n 1 $FILE
+
+# To get linecount
+wc -l $FILE
+
+# Extract confidence only
+cat $LABEL_PATH/labels.csv | grep -o "...$" > $LABEL_PATH/only_conf.txt
+
+# http://bconnelly.net/working-with-csvs-on-the-command-line/
+cat file.csv | sed -e 's/,,/, ,/g' | column -s, -t | less -#5 -N -S

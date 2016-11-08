@@ -32,8 +32,11 @@ with open(FILE_IN) as f:
             last = val
         count += 1
     bins[last] = count
-assert(sum(bins)== line_count + 1)
+
+bin_item_count = sum(bins)
+assert(bin_item_count== line_count + 1)
 
 print("\n{}".format(FILE_IN))
 for idx, b in enumerate(bins):
-    print("{:.1f} -> {}".format(idx / 10, b))
+    #print("{:.1f} -> {}".format(idx / 10, b))
+    print("{:.1f} -> {:>4.1f}%".format(idx / 10, b / bin_item_count * 100))
