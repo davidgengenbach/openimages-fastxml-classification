@@ -12,11 +12,11 @@ images
         10 OriginalMD5
         11 Thumbnail300KURL
     train
-        Total: 9.011.220
-        Size: 18.3 TB
+        Total:      9.011.220
+        Size:       18.3 TB
     validation
-        Total: 167.057
-        Size: 309.9 GB
+        Total:      167.057
+        Size:       309.9 GB
 
 annotations
     HEADER
@@ -26,14 +26,14 @@ annotations
         4 Confidence
     human
         validation
-            Total: 1.741.385
+            Total:      1.741.385
             Confidences:
-                0.0 -> 548.741
-                1.0 -> 1.192.643
+                0.0     31.5%
+                1.0     68.5%
 
     machine
         validation
-            Total: 2.060.221
+            Total:      2.060.221
             Confidences:
                 0.5     14.5%
                 0.6     22.2%
@@ -42,29 +42,36 @@ annotations
                 0.9     18.4%
                 1.0      7.0%
         train
-            Total: 79.196.416
+            Total:      79.196.416
             Confidences:
-                0.5 -> 9.757.582
-                0.6 -> 17.439.220
-                0.7 -> 16.896.852
-                0.8 -> 16.245.045
-                0.9 -> 15.695.768
-                1.0 -> 3.161.948
+                0.5     12.3%
+                0.6     22.0%
+                0.7     21.3%
+                0.8     20.5%
+                0.9     19.8%
+                1.0      4.0%
 
-- labels per image
-- images per label
-- ratio: wrong/right labels
-- labels that we're mispredicted often
+TODO
+    labels that were mispredicted often
+    (labels per image)
+    (images per label)
+    (ratio: wrong/right labels)
 
 
-# To get headers of file
+
+
+# Headers
 head -n 1 $FILE
 
-# To get linecount
+# Linecount
 wc -l $FILE
 
-# Extract confidence only
-cat $LABEL_PATH/labels.csv | grep -o "...$" > $LABEL_PATH/only_conf.txt
+# Extract 4th column
+cat $FILE | cut -d , -f 4 > $NEW_FILE
 
 # http://bconnelly.net/working-with-csvs-on-the-command-line/
 cat file.csv | sed -e 's/,,/, ,/g' | column -s, -t | less -#5 -N -S
+
+head -n 10 download/human_ann_2016_08/validation/labels_mispredicted_wc.csv | cut -d , -f 1 | ./labelnames.sh
+
+cat labels.csv | grep -E '/m/036qh8.*,0.0' > labels_mispredicted_wc2.csv
