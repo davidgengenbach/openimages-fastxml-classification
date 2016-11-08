@@ -1,4 +1,4 @@
-from kaffe.tensorflow import Network
+from network import Network
 
 class VGG_ILSVRC_16_layers(Network):
     def setup(self):

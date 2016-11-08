@@ -2,4 +2,4 @@
 
 set -x
 
-docker run -ti --volume=$(pwd):/workspace caffe-tf:cpu bash
+docker run -ti --volume=$(pwd)/workspace:/workspace caffe-tf:cpu bash

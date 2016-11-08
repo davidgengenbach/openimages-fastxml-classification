@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>run</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>-Dlog4j.configuration=log4j.properties -classpath %classpath de.david.hadoop.test2.LabelCount input output output2</exec.args>
+                <exec.executable>java</exec.executable>
+                <exec.workingdir></exec.workingdir>
+            </properties>
+        </action>
+        <action>
+            <actionName>remove-output</actionName>
+            <properties>
+                <exec.args>-rf output</exec.args>
+                <exec.executable>rm</exec.executable>
+                <exec.workingdir>/Users/davidgengenbach/Desktop/hadoop-test</exec.workingdir>
+            </properties>
+        </action>
+        <action>
+            <actionName>debug</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -Dlog4j.configuration=log4j.properties -classpath %classpath de.david.hadoop.test2.LabelCount input output output2</exec.args>
+                <exec.executable>java</exec.executable>
+                <jpda.listen>true</jpda.listen>
+                <exec.workingdir></exec.workingdir>
+            </properties>
+        </action>
+        <action>
+            <actionName>profile</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>-Dlog4j.configuration=log4j.properties -classpath %classpath de.david.hadoop.test2.LabelCount input output output2</exec.args>
+                <exec.executable>java</exec.executable>
+                <exec.workingdir></exec.workingdir>
+            </properties>
+        </action>
+        <action>
+            <actionName>clean</actionName>
+            <packagings>
+                <packaging>*</packaging>
+            </packagings>
+            <goals>
+                <goal>clean</goal>
+            </goals>
+            <properties>
+                <exec.args>-rf output</exec.args>
+                <exec.executable>rm</exec.executable>
+            </properties>
+        </action>
+    </actions>

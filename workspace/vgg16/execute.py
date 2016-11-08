@@ -7,13 +7,13 @@ import numpy as np
 import tensorflow as tf
 from glob import glob
 from scipy import misc
-sys.path.insert(0, '../caffe-tensorflow')
+#sys.path.insert(0, '../caffe-tensorflow')
 from tf_net import VGG_ILSVRC_16_layers
 
 LOAD_FROM_NPY = False
 LOAD_FROM_CHECKPOINT = True
 SAVE_TO_CHECKPOINT = False
-
+CHECKPOINT = "./checkpoint/tf_net.ckpt"
 NPY_PATH = 'model/tf_net.npy'
 
 t = time.time()
@@ -37,8 +37,10 @@ def add_label_names(result):
 def get_top(result, top=5):
     return add_label_names(result)[0:top]
 
-vars_to_be_saved =[var for var in tf.all_variables() if 'biases' in var.name or 'weights' in var.name]
-saver = tf.train.Saver(vars_to_be_saved)
+def get_variables_to_be_saved():
+    return [var for var in tf.all_variables() if 'biases' in var.name or 'weights' in var.name]
+
+saver = tf.train.Saver(get_variables_to_be_saved())
 
 print_time('Init', t)
 
@@ -49,19 +51,24 @@ with tf.Session() as sess:
 
     if LOAD_FROM_NPY:
         print("Loading from npy")
+        t = time.time()
         net.load(NPY_PATH, sess)
+        print_time('TimeLoadFromNpy', t)
     if LOAD_FROM_CHECKPOINT:
         print("Loading from checkpoint")
         t = time.time()
-        saver.restore(sess, "./checkpoint/tf_net.ckpt")
+        saver.restore(sess, CHECKPOINT)
         print_time('TimeLoadFromCheckpoint', t)
     if SAVE_TO_CHECKPOINT:
         print("Saving to checkpoint")
-        saver.save(sess, "./checkpoint/tf_net.ckpt")
+        t = time.time()
+        saver.save(sess, CHECKPOINT)
+        print_time('TimeSaveCheckpoint', t)
     print('Starting prediction')
 
     t = time.time()
-    output = sess.run(net.get_output(), feed_dict={input_data: img_tf})
+    output = sess.run(net.get_output(), feed_dict={ input_data: img_tf })
+    #output2 = sess.run(net.layers['fc7'], feed_dict= {input_data: img_tf })
     print_time('TimePrediction', t)
 
     print('\n')
