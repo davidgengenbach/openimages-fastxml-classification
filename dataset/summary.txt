@@ -71,11 +71,10 @@ wc -l $FILE
 cat $FILE | cut -d , -f 4 > $NEW_FILE
 
 # http://bconnelly.net/working-with-csvs-on-the-command-line/
+http://www.datamazing.co.uk/2014/01/25/working-with-data-on-the-command-line
 cat file.csv | sed -e 's/,,/, ,/g' | column -s, -t
 
 # Top10 mispredicted
 head -n 10 download/human_ann_2016_08/validation/labels_mispredicted_wc.csv | cut -d , -f 1 | ./labelnames.sh
 
 cat labels.csv | grep -E '/m/036qh8.*,0.0' > labels_mispredicted_wc2.csv
-
-http://www.datamazing.co.uk/2014/01/25/working-with-data-on-the-command-line

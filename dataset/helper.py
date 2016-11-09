@@ -5,6 +5,9 @@ import numpy as np
 def get_line_count(filename):
     return int(os.popen('wc -l < {}'.format(filename)).read().strip()) - 1
 
+def print_file_count(filename, line_count):
+    print('File:\t{}\nLines:\t{}'.format(filename, line_count))
+
 def get_header_index_from_name(name, headers):
     for idx, header in enumerate(headers):
         if name == header:
