@@ -3,7 +3,12 @@
 extract_columns() {
     echo -e "\tExtracting column: $1\t// $2 // $3"
     local COLUMNS=$1; local IN=$2; local OUT=$3;
-    csvtool col $COLUMNS $IN > $OUT
+    if [ -e "$OUT" ]; then
+        echo -e "\t(Already extracted - skipping)"
+    else
+        csvtool col $COLUMNS $IN > $OUT
+    fi
+
 }
 
 extract_ann_cols() {
@@ -26,17 +31,17 @@ extract_ann_cols() {
 
 extract_img_cols() {
     local IN=$1
-    echo -e "extract_img_cols: $IN"
-    extract_columns 1,3,4   $IN/labels.csv          $IN/labels_1_3_4.csv || exit
-    extract_columns 1,2     $IN/labels_1_3_4.csv    $IN/labels_1_3.csv || exit
-    extract_columns 9       $IN/labels.csv          $IN/labels_9.csv || exit
+    echo -e "\n\nextract_img_cols: $IN"
+    extract_columns 1,3,4   $IN/images.csv          $IN/images_1_3_4.csv || exit
+    extract_columns 1,2     $IN/images_1_3_4.csv    $IN/images_1_3.csv || exit
+    extract_columns 9       $IN/images.csv          $IN/images_9.csv || exit
 }
 
 extract_ann_cols "download/human_ann_2016_08/validation"
 extract_ann_cols "download/machine_ann_2016_08/validation"
 extract_ann_cols "download/machine_ann_2016_08/train"
 
-echo -e "labels-mispredicted"
+echo -e "\n\nlabels-mispredicted"
 ./labels-mispredicted.sh
 
 extract_img_cols "download/images_2016_08/validation"
