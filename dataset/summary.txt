@@ -24,6 +24,9 @@ annotations
         2 Source
         3 LabelName
         4 Confidence
+    MISPREDICTED
+        Ratio:  31% (false positives)
+        Most:   "produce, flower, plant, food, sports, shrub, human body"
     human
         validation
             Total:      1.741.385
@@ -70,8 +73,10 @@ wc -l $FILE
 cat $FILE | cut -d , -f 4 > $NEW_FILE
 
 # http://bconnelly.net/working-with-csvs-on-the-command-line/
-cat file.csv | sed -e 's/,,/, ,/g' | column -s, -t | less -#5 -N -S
+cat file.csv | sed -e 's/,,/, ,/g' | column -s, -t
 
+# Top10 mispredicted
 head -n 10 download/human_ann_2016_08/validation/labels_mispredicted_wc.csv | cut -d , -f 1 | ./labelnames.sh
 
+#
 cat labels.csv | grep -E '/m/036qh8.*,0.0' > labels_mispredicted_wc2.csv

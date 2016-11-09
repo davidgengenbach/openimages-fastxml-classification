@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-
 LABELS_IN="download/human_ann_2016_08/validation/labels.csv"
 LABELS_OUT="download/human_ann_2016_08/validation/labels_mispredicted.csv"
 LABELS_OUT_COUNT="download/human_ann_2016_08/validation/labels_mispredicted_wc.csv"

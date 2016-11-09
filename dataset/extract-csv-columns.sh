@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-
-#set -x
-
 IN=$1
 HEADERS=$2
 HEADERS_WITHOUT_SEP=`echo $HEADERS | tr , _`
