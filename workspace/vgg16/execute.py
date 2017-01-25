@@ -48,6 +48,7 @@ with tf.Session() as sess:
     print('Session started')
     sess.run(tf.initialize_all_variables())
     img_tf = sess.run(images)
+    print(len(images))
 
     if LOAD_FROM_NPY:
         print("Loading from npy")
@@ -67,10 +68,10 @@ with tf.Session() as sess:
     print('Starting prediction')
 
     t = time.time()
-    output = sess.run(net.get_output(), feed_dict={ input_data: img_tf })
-    #output2 = sess.run(net.layers['fc7'], feed_dict= {input_data: img_tf })
+    #output = sess.run(net.get_output(), feed_dict={ input_data: img_tf })
+    output = sess.run(net.layers['fc7'], feed_dict= {input_data: img_tf })
     print_time('TimePrediction', t)
-
+    print(output[0])
     print('\n')
     for idx, o in enumerate(output):
         print('{}'.format(images_srcs[idx]))
