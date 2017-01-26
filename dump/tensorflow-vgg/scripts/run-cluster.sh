@@ -1,10 +1,11 @@
+cd ..
+
 IMG_PATH="/nfs/cluster_files/dgengenbach/feature_extraction/val_imgs"
 
-ARCHIVE_PATH="/nfs/cluster_files/dgengenbach/feature_extraction"
-IMG_FILE="$ARCHIVE_PATH/images.txt"
-FEATURES_FILE="$ARCHIVE_PATH/features.txt"
-DONE_FILE="$ARCHIVE_PATH/done.txt"
-OUT="$ARCHIVE_PATH/out.log"
+WORK_DIR="/nfs/cluster_files/dgengenbach/feature_extraction"
+IMG_FILE="$WORK_DIR/images.txt"
+FEATURES_FILE="$WORK_DIR/features.txt"
+DONE_FILE="$WORK_DIR/done.txt"
 
 
 /nfs/cluster_files/dgengenbach/anaconda3/bin/python3 \

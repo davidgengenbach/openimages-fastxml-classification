@@ -64,7 +64,7 @@ def save_features_normal(filenames, features, features_file):
 def transform_image(img, over_sample=False, mean_pix=[103.939, 116.779, 123.68], image_dim=256, crop_dim=224, subtract_mean = False, divide_by_255 = True):
 
     # img[:,:,::-1]
-
+    img_filename = img
     img = np.array(scipy.misc.imread(img))
     img = np.roll(img, 1, axis=-1)
     # resize image, the shorter side is set to image_dim
@@ -86,13 +86,15 @@ def transform_image(img, over_sample=False, mean_pix=[103.939, 116.779, 123.68],
     indices_x = [0, img.shape[1]-crop_dim]
     center_y = np.floor(indices_y[1]/2)
     center_x = np.floor(indices_x[1]/2)
-
-    img = img[center_y:center_y + crop_dim, center_x:center_x+crop_dim, :]
-    if subtract_mean:
-        for i in range(3):
-            img[:, :, i] -= mean_pix[i]
-    if divide_by_255:
-        img /= 255
+    try:
+        img = img[center_y:center_y + crop_dim, center_x:center_x+crop_dim, :]
+        if subtract_mean:
+            for i in range(3):
+                img[:, :, i] -= mean_pix[i]
+        if divide_by_255:
+            img /= 255
+    except Exception as e:
+        raise Exception("Error Processing image: {}\nException: {}".format(img_filename, e))
     return img
 
 

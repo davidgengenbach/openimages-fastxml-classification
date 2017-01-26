@@ -7,6 +7,7 @@ import sys
 import helper
 import argparse
 import os
+import datetime
 
 import vgg16
 import utils
@@ -17,6 +18,18 @@ parser.add_argument('--images-path', default='')
 parser.add_argument('--done-file', default='images/done.txt')
 parser.add_argument('--features-file', default='images/features.txt')
 args = parser.parse_args()
+
+def get_features_file_stamped(features_file):
+    parts = features_file.split('.')
+    if 'SLURM_JOB_ID' in os.environ:
+        stamp = os.environ['SLURM_JOB_ID']
+    else:
+        stamp = '{:%Y%m%d_%H%M%S}'.format(datetime.datetime.now())
+    parts.insert(-1, stamp)
+    return ".".join(parts)
+
+args.features_file = get_features_file_stamped(args.features_file)
+
 
 if not os.path.exists(args.images_list_file):
     print('Image file not existent: {}'.format(args.images_list_file))
