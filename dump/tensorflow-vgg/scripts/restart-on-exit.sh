@@ -6,7 +6,7 @@ while true; do
     if [ "$PYTHON_PROCESSES" = "0" ]; then
         STAMP=$(date "+%d.%m. %H:%M:%S")
         echo "$STAMP: Restarting processes"
-        ./run-multiple-cluster.sh
+        ./scripts/run-multiple-cluster.sh
     fi
     sleep $POLL_INTERVAL
 done

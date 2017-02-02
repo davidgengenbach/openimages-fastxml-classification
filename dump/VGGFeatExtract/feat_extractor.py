@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 FeatExtractor is a feature extraction specialization of Net.
 """
@@ -79,16 +80,13 @@ if __name__ == '__main__':
 
   with open(img_list) as f:
     img_names = [l.rstrip() for l in f]
-  imgs = []
-  print('Reading in images')
-  for i in range(10):
-    img_name = img_names[i]
-    img = load_image(img_name)
-    imgs.append(img)
-  print('Extracting')
-  start = time.time()
-  feats2 = extractor.extract_batch(imgs)
-  print ('batch extraction:', time.time() - start)
 
-  print (len(feats2['fc6']))
-  print(feats2['fc6'])
+  img_names = img_names[0:10]
+  print('Reading in images')
+  imgs = [load_image(img_name) for img_name in img_names]
+  for i in range(3):
+      print('Extracting')
+      start = time.time()
+      features = extractor.extract_batch(imgs)
+      time_needed = (time.time() - start)
+      print ('{:.4f} seconds/image\ntotal: {}'.format(time_needed / len(imgs), time_needed))
