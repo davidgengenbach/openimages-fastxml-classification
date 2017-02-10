@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 Takes the features-classes file and splits them into two files. For C++ fastxml
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 Takes the features and adds the labels to them.
 
@@ -51,6 +51,7 @@ def write_features_with_labels_file(features_labels_file, labels, features):
             # ImageId
             iid = feature[0:16]
             if iid not in labels:
+                print("ImageId has no positive labels: {}".format(iid))
                 continue
 
             # The labels for this image

@@ -36,6 +36,7 @@
         - Confidences:
             - 0.0     31.5%
             - 1.0     68.5%
+        - Images that have no positive label: ca. 2000
 
 - machine
     - validation
