@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-IN = 'out.txt'
+IN = 'features.txt'
 OUT_FEATURES = 'out.features.txt'
 OUT_CLASSES = 'out.classes.txt'
 FEATURE_COUNT = 1000

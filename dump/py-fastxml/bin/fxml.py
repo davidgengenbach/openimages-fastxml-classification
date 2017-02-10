@@ -246,7 +246,7 @@ class StandardDatasetQuantizer2(Quantizer):
         c, d = [], []
         for idx, v in enumerate(features):
             c.append(idx)
-            d.append(1)
+            d.append(v)
 
         return (c, d), y
 
