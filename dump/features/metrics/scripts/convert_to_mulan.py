@@ -3,60 +3,66 @@
 
 import argparse
 
-DEFAULT_IN = '../in/classes.real.txt'
+DEFAULT_IN_CLASSES_SPARSE = 'in/classes.real.txt'
+DEFAULT_IN_FEATURES_SPARSE = '../features.txt'
+DEFAULT_OUT = 'out/yes.txt'
+NUM_FEATURES = 5096
+NUM_CLASSES = 7881
 
 def main():
-    parser = argparse.ArgumentParser(description='Adds labels to features')
-    parser.add_argument('--in-file', type=str, default=DEFAULT_IN)
-    parser.add_argument('--out-file', type=str, default=None)
+    parser = argparse.ArgumentParser(description='Converts to MULAN formats')
+    parser.add_argument('--classes-in-file', type=str, default=DEFAULT_IN_CLASSES_SPARSE)
+    parser.add_argument('--features-in-file', type=str, default=DEFAULT_IN_FEATURES_SPARSE)
+    parser.add_argument('--out-file', type=str, default=DEFAULT_OUT)
+    parser.add_argument('--header', type=str, default=DEFAULT_OUT)
     args = parser.parse_args()
 
-    data, rows, class_idxs = get_classes(args.in_file)
-    out = get_matlab_sparse_format(data, rows, class_idxs)
+    header = get_header(NUM_FEATURES, NUM_CLASSES)
 
-    if args.out_file is None:
-        args.out_file = '.'.join(args.in_file.split('.')[0:-1]) + '.mat.txt'
-
+    clazzes = get_classes(args.classes_in_file)
+    features = get_features(args.features_in_file)
     with open(args.out_file, 'w') as f:
-        f.write(out)
+        f.write(header)
+        for clazzes, feature in zip(clazzes, features):
+            features_ = ",".join([str(idx) + ' ' + str(x) for idx, x in enumerate(feature)])
+            clazzes_ = ",".join([str(classid + NUM_FEATURES) + ' ' + str(val) for classid, val in clazzes])
+            f.write('{{{},{}}}\n'.format(features_, clazzes_))
 
-def get_matlab_sparse_format(data, rows, class_idxs):
-    out = []
-    for idx, data in enumerate(data):
-        out.append(str(rows[idx] + 1) + ' ' + str(class_idxs[idx] + 1) + ' ' + str(data))
-    return "\n".join(out)
+
+def get_header(NUM_FEATURES, NUM_CLASSES):
+    out = ['@relation OpenImages', '']
+    out += ['@attribute f%s numeric' % x for x in range(NUM_FEATURES)]
+    out += ['@attribute c%s {0,1}' % x for x in range(NUM_CLASSES)]
+    return '\n'.join(out)
+
+def get_features(file):
+    with open(file) as f:
+        for feature_line in f:
+            yield feature_line.split(',')[1:]
 
 def get_classes(file):
     print("Getting: {}".format(file))
-    STEP = 10000
     elements = []
     with open(file) as f:
         num_elements, num_classes = f.readline().split(' ')
         elements = f.read().strip().split('\n')
-        elements = elements[0:10000]
         num_elements = len(elements)
         num_classes = int(num_classes)
-    classes = []
-    data = []
-    class_idxs = []
-    rows = []
+    elements_out = []
     for idx, element in enumerate(elements):
-        if idx % STEP == 0:
-            print("\tElement: {:>14}/{}".format(idx, num_elements))
-
         if element.strip() == '':
-            print("Empty element? {}".format(idx))
+            print("Empty element: {}".format(idx))
 
         clazzes = []
         for clazz in element.split(' '):
             clazz_idx, val = clazz.split(':')
             clazz_idx = int(clazz_idx)
-            data.append(float(val))
-            if not float(val) >= 0 or not float(val) <= 1:
-                print("Invalid val: {}".format(float(val)))
-            rows.append(idx)
-            class_idxs.append(clazz_idx)
-    return data, rows, class_idxs
+            val = float(val)
+            if not val >= 0 or not val <= 1:
+                print("Invalid val: {}".format(val))
+            clazzes.append((clazz_idx, val))
+        elements_out.append(clazzes)
+    return elements_out
 
 if __name__ == '__main__':
     main()
