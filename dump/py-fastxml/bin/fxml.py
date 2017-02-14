@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from __future__ import print_function
 import math
 import sys
@@ -167,7 +167,7 @@ class JsonQuantizer(Quantizer):
         return self.fh.transform([d])
 
     def yieldJson(self, fname):
-        with file(fname) as f:
+        with open(fname) as f:
             for i, line in enumerate(f):
                 if self.verbose and i % 10000 == 0:
                     print("%s docs encoded" % i)
@@ -216,7 +216,7 @@ class StandardDatasetQuantizer(Quantizer):
         return (c, d), y
 
     def stream(self, fn):
-        with file(fn) as f:
+        with open(fn) as f:
             n_samples, n_feats, n_classes = map(int, f.readline().split())
             for i, line in enumerate(f):
                 if ',' not in line:
@@ -233,15 +233,13 @@ class StandardDatasetQuantizer2(Quantizer):
     def __init__(self, verbose):
         self.verbose = verbose
 
+    # iid,feature1,...,featureN label1,...,labelN
     def quantize(self, line):
         features_, classes = line.strip().split(None, 1)
         y = classes.split(',')
         features = []
         for x in features_.split(',')[1:]:
-            try:
-                features.append(float(x))
-            except:
-                features.append(float(x[0:5]))
+            features.append(float(x))
 
         c, d = [], []
         for idx, v in enumerate(features):
@@ -252,7 +250,7 @@ class StandardDatasetQuantizer2(Quantizer):
 
     def stream(self, fn):
         last = None
-        with file(fn) as f:
+        with open(fn) as f:
             for i, line in enumerate(f):
                 if ',' not in line:
                     continue
@@ -301,7 +299,7 @@ def train(args, quantizer):
     if not os.path.isdir(args.model):
         os.makedirs(args.model)
 
-    with file(dataset.classes, 'w') as out:
+    with open(dataset.classes, 'w') as out:
         json.dump(classes.items(), out)
 
     # Train
@@ -363,7 +361,7 @@ def print_ndcg(ndcgs):
 def inference(args, quantizer):
     dataset = Dataset(args.model)
 
-    with file(dataset.model) as f:
+    with open(dataset.model) as f:
         clf = pickle.load(f)
 
     if args.blend_factor is not None:
@@ -373,7 +371,7 @@ def inference(args, quantizer):
         clf.gamma = args.gamma
 
     # Load reverse map
-    with file(dataset.classes) as f:
+    with open(dataset.classes) as f:
         data = json.load(f)
         classes = {v: k for k, v in data}
 
@@ -402,6 +400,7 @@ def inference(args, quantizer):
 
 if __name__ == '__main__':
     args = build_arg_parser().parse_args()
+    print(args)
     # Quantize
     if args.standardDataset:
         quantizer = StandardDatasetQuantizer2(args.verbose)
