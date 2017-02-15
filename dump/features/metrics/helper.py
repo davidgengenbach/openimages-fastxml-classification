@@ -8,7 +8,7 @@ import pickle
 from scipy import sparse, io
 
 
-def get_classes(file, verbose=False, eps=1e-10, test=False, re_read = False):
+def get_classes(file, verbose=False, eps=1e-10, test=False, re_read=False):
     print("Reading : {}".format(file))
 
     pickle_file = file + '.pickle'

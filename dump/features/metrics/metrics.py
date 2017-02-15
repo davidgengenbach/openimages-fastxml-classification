@@ -9,14 +9,16 @@ import argparse
 
 classes_1_test = './in/classes.real.test.txt'
 classes_1_train = './in/classes.real.train.txt'
-classes_2 = './in/openimages__NUM_THREADS__1__START_TREE__0__NUM_TREE__50__BIAS__1.0__LOG_LOSS_COEFF__1.0__MAX_LEAF__50__LBL_PER_LEAF__10_test_results.txt'
+classes_2_test = './in/openimages__NUM_THREADS__1__START_TREE__0__NUM_TREE__50__BIAS__1.0__LOG_LOSS_COEFF__1.0__MAX_LEAF__50__LBL_PER_LEAF__10_test_results.txt'
+classes_2_train = './in/openimages__NUM_THREADS__1__START_TREE__0__NUM_TREE__50__BIAS__1.0__LOG_LOSS_COEFF__1.0__MAX_LEAF__50__LBL_PER_LEAF__10_train_results.txt'
 
 sess = None
 
+
 def main():
-    parser = argparse.ArgumentParser(description = "Yes")
+    parser = argparse.ArgumentParser(description="Yes")
     parser.add_argument('--in1', default=classes_1_test)
-    parser.add_argument('--in2', default=classes_2)
+    parser.add_argument('--in2', default=classes_2_test)
     parser.add_argument('--batch-size', default=10000)
     parser.add_argument('--num-labels', default=7881)
     parser.add_argument('--k', default=5)
@@ -27,13 +29,18 @@ def main():
     real_sp = helper.get_classes(args.in1)
     pred_sp = helper.get_classes(args.in2)
 
+    log_losses = []
     for real, pred in helper.get_batches(real_sp, pred_sp, batch_size=args.batch_size):
-        print('Presision@5:', precision_at_k(real, pred, k = args.k))
-        print('Pruned Presision@5:', precision_at_k(real, pred, prune_to = 0.5, k = args.k))
-        print('LogLoss/accuracy:', eval_tf(real, pred))
+        precision_at = precision_at_k(real, pred, k=args.k)
+        pruned_precision_at = precision_at_k(real, pred, prune_to=0.5, k=args.k)
+        log_loss = eval_tf(real, pred)
+        log_losses.append(log_loss[0])
+        print('LogLoss: {}\tPrecision: {}\t PrecisionPruned: {}'.format(log_loss, precision_at, pruned_precision_at))
         print()
+    print('LogLossTotal: {}'.format(sum(log_losses) / len(log_losses)))
 
-def precision_at_k(real, pred, k = 5, prune_to = None):
+
+def precision_at_k(real, pred, k=5, prune_to=None):
     top_ks = []
     for idx, a in enumerate(real):
         b = pred[idx]
@@ -46,8 +53,10 @@ def precision_at_k(real, pred, k = 5, prune_to = None):
         top_ks.append(top_k)
     return sum(top_ks) / len(top_ks)
 
+
 def eval_tf(real, pred):
     return sess.run([log_loss, accuracy2], feed_dict={predictions: pred, labels: real})
+
 
 def init_tf(num_labels):
     global predictions, labels, log_loss, sess, accuracy2

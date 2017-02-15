@@ -33,7 +33,7 @@ def main():
 
     features_and_classes = get_features_and_classes(args.features_labels_file)
     feature_count = get_feature_count(args.features_labels_file)
-    features_count = get_features_count(args.features_labels_file)
+    features_count = get_file_line_count(args.features_labels_file)
 
     classes_ = open(args.classes_sorted_file).read().split('\n')
     classes_.sort()
@@ -82,7 +82,7 @@ def get_feature_count(file):
     return count
 
 
-def get_features_count(file):
+def get_file_line_count(file):
     p = subprocess.Popen(['wc', '-l', file], stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)
     result, err = p.communicate()
