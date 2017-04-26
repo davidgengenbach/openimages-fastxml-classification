@@ -1,0 +1,3 @@
+[submodule "dump/tensorflow-vgg"]
+	path = dump/tensorflow-vgg
+	url = git@github.com:davidgengenbach/tensorflow-vgg.git
