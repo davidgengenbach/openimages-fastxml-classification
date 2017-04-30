@@ -52,10 +52,14 @@ def write_features_with_labels_file(features_labels_file, labels, features):
             iid = feature[0:16]
             if iid not in labels:
                 print("ImageId has no positive labels: {}".format(iid))
-                continue
+                labels_for_iid = []
+                # TODO UNCOMMENT! continue
+            else:
+                # The labels for this image
+                labels_for_iid = labels[iid]
 
-            # The labels for this image
-            labels_for_iid = labels[iid]
+            
+            
 
             # Format: iid,feature1,...,featureN label1,...,labelN
             outfile.write(feature.strip() + ' ' + ','.join(labels_for_iid))

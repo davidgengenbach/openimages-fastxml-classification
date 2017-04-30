@@ -43,7 +43,6 @@ def main():
 
 def write(features_out_file, classes_out_file, features_and_classes, classes_, feature_count, features_count):
     features_indexes = range(feature_count)
-
     with open(features_out_file, 'w') as feature_file:
         feature_file.write('{} {}\n'.format(features_count, feature_count))
         with open(classes_out_file, 'w') as classes_file:
@@ -88,6 +87,7 @@ def get_file_line_count(file):
     result, err = p.communicate()
     if p.returncode != 0:
         raise IOError(err)
+    print(result.strip())
     return int(result.strip().split()[0])
 
 
