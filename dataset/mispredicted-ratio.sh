@@ -5,7 +5,11 @@ LABELS_MISPREDICTED="download/human_ann_2016_08/validation/labels_mispredicted_w
 ALL_LABELS="download/human_ann_2016_08/validation/labels.csv"
 ALL_LABELS_CORRECT="download/human_ann_2016_08/validation/labels_1_3_correct.csv"
 
-for label in $(head -n 10 $LABELS_MISPREDICTED); do
+COUNTER=0
+NUMBER_LABELS=100
+for label in $(head -n $NUMBER_LABELS $LABELS_MISPREDICTED); do
+    COUNTER=$((COUNTER + 1))
+    echo "$COUNTER/$NUMBER_LABELS"
     LABEL=$(echo $label | cut -d , -f 1)
     if [ $(echo $LABEL | grep "word") ]; then
         continue

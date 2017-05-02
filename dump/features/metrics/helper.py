@@ -9,12 +9,12 @@ from scipy import sparse, io
 
 
 def get_classes(file, verbose=False, eps=1e-10, test=False, re_read=False):
-    print("Reading : {}".format(file))
+    #print("Reading : {}".format(file))
 
     pickle_file = file + '.pickle'
 
     if not re_read and os.path.exists(pickle_file):
-        print("Using pickle version")
+        #print("Using pickle version")
         mat = pickle.load(open(pickle_file, 'rb'))
     else:
         elements = []
