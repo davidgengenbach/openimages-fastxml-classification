@@ -1,0 +1,3 @@
+*.txt
+*.pickle
+!reference/classes.*.txt

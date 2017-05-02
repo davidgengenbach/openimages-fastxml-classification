@@ -1,7 +1,0 @@
-build/
-dist/
-venv/
-*.egg-info/
-*.pyc
-*.so
-*.c

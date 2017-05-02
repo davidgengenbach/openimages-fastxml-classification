@@ -1,6 +1,6 @@
-[submodule "dump/tensorflow-vgg"]
-	path = dump/tensorflow-vgg
+[submodule "vgg/tensorflow-vgg"]
+	path = vgg/tensorflow-vgg
 	url = git@github.com:davidgengenbach/tensorflow-vgg.git
-[submodule "dump/vgg16-caffe"]
-	path = dump/vgg16-caffe
+[submodule "vgg/vgg16-caffe"]
+	path = vgg/vgg16-caffe
 	url = git@github.com:davidgengenbach/vgg-caffe.git

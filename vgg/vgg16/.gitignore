@@ -1,0 +1,5 @@
+*.caffemodel
+checkpoint
+*.ckpt
+*.npy
+*.prototxt
