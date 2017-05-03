@@ -27,6 +27,8 @@ def get_args():
     parser.add_argument('--batch-size', default=10000)
     parser.add_argument('--num-labels', default=7881)
     parser.add_argument('--k', default=5)
+    parser.add_argument('--prune-to', default=0.1, type=float)
+    parser.add_argument('--eval-tf', default=False, type=bool)
     return parser.parse_args()
 
 
@@ -35,21 +37,37 @@ def main():
 
     init_tf(args.num_labels)
 
+    real_sp = helper.get_classes(args.in1)
+    results = []
     for file in glob(args.in2):
-        print('###### {}'.format(file))
-        real_sp = helper.get_classes(args.in1)
+        print('# {}'.format(file))
         pred_sp = helper.get_classes(file)
         assert(real_sp.shape == pred_sp.shape)
 
-        log_losses = []
+        results = []
         for real, pred in helper.get_batches(real_sp, pred_sp, batch_size=args.batch_size):
-            #pred = 1 / (1 + np.exp(-pred))
+
+            # Precision at k
             precision_at = precision_at_k(real, pred, k=args.k)
-            pruned_precision_at = precision_at_k(real, pred, prune_to=0.5, k=args.k)
-            log_loss = eval_tf(real, pred)
-            log_losses.append(log_loss[0])
-            print('LogLoss: {:<4}\tPrecision: {:.4f}\t PrecisionPruned: {:.4f}'.format(
-                ", ".join([str(x)[0:4] for x in log_loss]), precision_at, pruned_precision_at))
+            #pruned_precision_at = precision_at_k(real, pred, prune_to=args.prune_to, k=args.k)
+            #print('Precision: {:.4f}\nPrecisionPruned: {:.4f}'.format(precision_at, pruned_precision_at))
+            #results.append((precision_at, pruned_precision_at))
+            results.append((precision_at))
+            # Logloss
+            if args.eval_tf:
+                log_loss = eval_tf(real, pred)
+                log_losses.append(log_loss[0])
+                print('LogLoss: {:<4}'.format(", ".join([str(x)[0:4] for x in log_loss])))
+
+        def get_total_precision(results, column):
+            #precisions = np.array(results)[:, column]
+            precisions = results
+            return sum(precisions) / len(precisions)
+
+        print('Total Precision@{}: {}'.format(
+            args.k,
+            get_total_precision(results, 0)
+        ))
         #print('LogLossTotal: {}'.format(sum(log_losses) / len(log_losses)))
 
 
@@ -83,7 +101,10 @@ def init_tf(num_labels):
     global predictions, labels, log_loss, sess, accuracy1, update_op1, accuracy2, accuracy3
     predictions = tf.placeholder(tf.float32, shape=(None, num_labels))
     labels = tf.placeholder(tf.float32, shape=(None, num_labels))
-    log_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=predictions, labels=labels))
+    #log_loss = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
+    #log_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=predictions, labels=labels))
+
+    log_loss = tf.losses.log_loss(labels=labels, predictions=predictions)
 
     correct_prediction = tf.equal(tf.round(tf.nn.sigmoid(predictions)), labels)
     accuracy1, update_op1 = tf.metrics.accuracy(labels=labels, predictions=predictions)
@@ -98,3 +119,5 @@ def init_tf(num_labels):
 
 if __name__ == '__main__':
     main()
+
+#pred = 1 / (1 + np.exp(-pred))

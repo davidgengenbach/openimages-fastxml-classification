@@ -9,7 +9,11 @@ from scipy import sparse, io
 
 
 def get_classes(file, verbose=False, eps=1e-10, test=False, re_read=False):
-    pickle_file = file + '.pickle'
+    file_parts = file.split('/')
+    file_parts.append(file_parts[-1] + '.pickle')
+    file_parts[-2] = 'pickle'
+    pickle_file = "/".join(file_parts)
+    #pickle_file = file + '.pickle'
 
     if not re_read and os.path.exists(pickle_file):
         mat = pickle.load(open(pickle_file, 'rb'))
