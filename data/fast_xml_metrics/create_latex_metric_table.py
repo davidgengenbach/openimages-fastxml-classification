@@ -7,19 +7,21 @@ PARAMS_KEY_ORDER = ['NUM_TREE', 'MAX_LEAF', 'LBL_PER_LEAF']
 def main():
     args = get_args()
     metrics = get_metrics(args.in_file)
-    metrics.sort(key = lambda x: (int(x[0]['NUM_TREE']), int(x[0]['MAX_LEAF']), int(x[0]['LBL_PER_LEAF'])))
-
+    s = [(params, val) for params, val in metrics.items()]
+    
+    s.sort(key = lambda x: (int(x[1]['params']['NUM_TREE']), int(x[1]['params']['MAX_LEAF']), int(x[1]['params']['LBL_PER_LEAF'])))
     result = []
-    for params, precision in metrics:
+    for params, vals in s:
+        precision_test = "{:.3f}".format(vals['test'])
+        precision_train = "{:.3f}".format(vals['train'])
         out = []
-        precision = "{:.3f}".format(precision)
 
         for key in PARAMS_KEY_ORDER:
-            out.append(params[key])
-        out.append(precision)
+            out.append(vals['params'][key])
+        out.append(precision_test)
+        out.append(precision_train)
         table_row = " & ".join(out)
         result.append(table_row)
-        print(precision)
 
     print(" \\\ \hline \n".join(result))
 
@@ -51,14 +53,20 @@ def get_lines_from_file(file, remove_empty = True, strip = True):
         return [x.strip() if strip else x for x in f.read().split('\n') if not remove_empty or x.strip() != '']
 
 def get_metrics(filename):
-    out = []
+    out = {}
     lines = get_lines_from_file(filename)
     key = None
     for line in lines:
-        if line.startswith('#'):
-            key = get_parameters_from_filename(line.replace('#', ''))
-        else:
-            out.append((key, float(line.replace('Total Precision@5: ', ''))))
+        line = line.split('/')[-1].replace('.txt', '')
+        parts = line.split(' ')
+        params_raw = parts[0]
+        params_without_suffix = params_raw.replace('_test_results', '').replace('_train_results', '')
+        params = get_parameters_from_filename(params_raw)
+        val = float(parts[1])
+        is_test = line.count('test_results') == 1
+        if params_without_suffix not in out:
+            out[params_without_suffix] = {'params':params}
+        out[params_without_suffix]['test' if is_test else 'train'] = val
     return out
 
 if __name__ == '__main__':
