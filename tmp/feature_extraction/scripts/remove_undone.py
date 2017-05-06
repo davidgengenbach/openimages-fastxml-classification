@@ -1,23 +1,32 @@
 #!/usr/bin/env python3
 
-FEATURE_FILE = 'features.ids.txt'
-IMAGES_FILE = 'images.txt'
+import argparse
 
-IMAGE_PREFIX = '/nfs/cluster_files/dgengenbach/feature_extraction/val_imgs/'
+
+def main():
+    args = get_args()
+    features = get_file_splitted(args.features_file)
+
+    images = {x.split('/')[-1].replace('.jpg', ''): x.replace('./', '').split('/')[1]
+              for x in get_file_splitted(args.images_file)}
+    diff = list(set(images.keys()).intersection(set(features)))
+
+    with open('done.new.txt', 'w') as f:
+        f.write("\n".join([args.images_prefix + x + '.jpg' for x in diff]))
+
+
+def get_args():
+    parser = argparse.ArgumentParser(description='desc')
+    parser.add_argument('--features-file', type=str, help="help", default='features.ids.txt')
+    parser.add_argument('--images-file', type=str, help="help", default='images.txt')
+    parser.add_argument('--images-prefix', type=str, help="help",
+                        default='/nfs/cluster_files/dgengenbach/feature_extraction/val_imgs/')
+    args = parser.parse_args()
+    return args
+
 
 def get_file_splitted(file):
-	return [x for x in open(file, 'r').read().split('\n') if x.strip() != '']
+    return [x for x in open(file, 'r').read().split('\n') if x.strip() != '']
 
-features = get_file_splitted(FEATURE_FILE)
-
-images = {x.split('/')[-1].replace('.jpg', ''): x.replace('./', '').split('/')[1] for x in get_file_splitted(IMAGES_FILE)}
-diff  = list(set(images.keys()).intersection(set(features)))
-
-with open('done.new.txt', 'w') as f:
-	f.write("\n".join([IMAGE_PREFIX + x + '.jpg' for x in diff]))
-#print(len(diff), len(images))
-#print(features[0:10], images[0:10])
-#diff = list(set(images).intersection(set(features)))
-
-#with open('done.txt', 'w') as f:
-#	f.write("\n".join(features))
+if __name__ == '__main__':
+    main()
