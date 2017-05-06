@@ -26,7 +26,7 @@ def main():
                     print('Step: ', counter)
                 if line.count(',') != args.feature_size and line.count(',') != 0:
                     found_error = True
-                    print("\tError in {}: Comma count: {} on line {}".format(feature_file, line.count(','), line))
+                    print("\tError in {}: Comma count: {} on line {}".format(feature_file, line.count(','), idx))
                 counter += 1
     print("Step: ", counter)
     print("End!")
