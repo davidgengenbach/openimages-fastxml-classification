@@ -11,3 +11,4 @@ fi
 LINE_COUNT=$(cat $INPUT | wc -l)
 
 echo "YES${LINE_COUNT}YES"
+echo $((${LINE_COUNT} / $FOLDS))
