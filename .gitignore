@@ -5,3 +5,4 @@ dump/data/images
 dump/model
 dump/results.txt
 .nfs*
+data/*

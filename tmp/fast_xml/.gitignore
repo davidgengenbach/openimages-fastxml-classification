@@ -1,6 +1,0 @@
-results/
-sbatch-scripts/
-output/
-models/
-.ipynb_checkpoints/
-cpp.fastxml.*
