@@ -1,6 +1,6 @@
 [submodule "vgg/tensorflow-vgg"]
 	path = vgg/tensorflow-vgg
 	url = git@github.com:davidgengenbach/tensorflow-vgg.git
-[submodule "vgg/vgg16-caffe"]
-	path = vgg/vgg16-caffe
+[submodule "vgg/other/vgg16-caffe"]
+	path = vgg/other/vgg16-caffe
 	url = git@github.com:davidgengenbach/vgg-caffe.git
