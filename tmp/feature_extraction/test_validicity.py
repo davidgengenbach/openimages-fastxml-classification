@@ -5,7 +5,7 @@ import argparse
 
 def get_args():
     parser = argparse.ArgumentParser(description='Test validicity of a feature set')
-    parser.add_argument('feature-file-glob', type=str)
+    parser.add_argument('feature_file_glob', type=str)
     parser.add_argument('--feature-size', type=int, default=5096)
     parser.add_argument('--step-size', type=int, default=10000)
     args = parser.parse_args()
