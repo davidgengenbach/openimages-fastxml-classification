@@ -3,7 +3,7 @@ import pickle
 
 
 def get_labels(labels, labels_npy, process = False):
-    if process and os.path.exists(labels_npy):
+    if not process and os.path.exists(labels_npy):
         with open(labels_npy, 'rb') as f:
             return pickle.load(f)
     else:

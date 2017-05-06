@@ -25,12 +25,12 @@ def main():
     parser = argparse.ArgumentParser(description='Adds labels to features')
     parser.add_argument('--features-file', type=str, help="IN", default=DEFAULT_IN_FEATURES_FILE)
     parser.add_argument('--features-labels-file', type=str, help="OUT", default=DEFAULT_OUT_FEATURES_WITH_CLASSES)
-    parser.add_argument('--label-reprocess', action='store_true', help="reprocessing labels to npy", default=True)
+    parser.add_argument('--label-reprocess', action='store_false', help="Force reprocessing labels", default=False)
     parser.add_argument('--labels', type=str, help="labels for the images: iid,label", default=DEFAULT_LABELS_FILE)
     parser.add_argument('--labels-npy', type=str, help="labels for the images as npy", default=DEFAULT_LABELS_FILE_NPY)
     args = parser.parse_args()
 
-    labels = helper.get_labels(args.labels, args.labels_npy, args.label_reprocess)
+    labels = helper.get_labels(args.labels, args.labels_npy, process = args.label_reprocess)
     features = get_features(args.features_file)
     write_features_with_labels_file(args.features_labels_file, labels, features)
 

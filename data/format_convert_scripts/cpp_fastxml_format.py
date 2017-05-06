@@ -16,19 +16,15 @@ import time
 import os
 import subprocess
 
-DEFAULT_IN_FEATURES_WITH_CLASSES = 'out/features.labels.txt'
-DEFAULT_OUT_FEATURES_FORMAT_CPP = 'out/cpp.fastxml.features.txt'
-DEFAULT_OUT_CLASSES_FORMAT_CPP = 'out/cpp.fastxml.classes.txt'
-DEFAULT_IN_CLASSES_SORTED = 'data/classes.sorted.txt'
-
 
 def main():
     parser = argparse.ArgumentParser(description='Format features with classes to py-fastxml format')
-    parser.add_argument('--features-labels-file', type=str, help="IN", default=DEFAULT_IN_FEATURES_WITH_CLASSES)
+    parser.add_argument('--features-labels-file', type=str, help="IN",
+                        default='out/features.labels.txt')
     parser.add_argument('--classes-sorted-file', type=str, help="IN classes sorted",
-                        default=DEFAULT_IN_CLASSES_SORTED)
-    parser.add_argument('--features-out-file', type=str, help="OUT features", default=DEFAULT_OUT_FEATURES_FORMAT_CPP)
-    parser.add_argument('--classes-out-file', type=str, help="OUT classes", default=DEFAULT_OUT_CLASSES_FORMAT_CPP)
+                        default='data/classes.sorted.txt')
+    parser.add_argument('--features-out-file', type=str, help="OUT features", default='out/cpp.fastxml.features.txt')
+    parser.add_argument('--classes-out-file', type=str, help="OUT classes", default='out/cpp.fastxml.classes.txt')
     args = parser.parse_args()
 
     features_and_classes = get_features_and_classes(args.features_labels_file)
