@@ -28,7 +28,4 @@
 ../results/START_TREE__0__NUM_TREE__5__BIAS__1.0__LOG_LOSS_COEFF__1.0__MAX_LEAF__5__LBL_PER_LEAF__1_train_results.txt 0.4683550429540906
 ../results/START_TREE__0__NUM_TREE__5__BIAS__1.0__LOG_LOSS_COEFF__1.0__MAX_LEAF__5__LBL_PER_LEAF__5_test_results.txt 0.4686375598970028
 ../results/START_TREE__0__NUM_TREE__5__BIAS__1.0__LOG_LOSS_COEFF__1.0__MAX_LEAF__5__LBL_PER_LEAF__5_train_results.txt 0.7426745723420832
-
 ../results/START_TREE__0__NUM_TREE__10__BIAS__1.0__LOG_LOSS_COEFF__1.0__MAX_LEAF__5__LBL_PER_LEAF__40_train_results.txt 0.3203610227511616
-
-bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)

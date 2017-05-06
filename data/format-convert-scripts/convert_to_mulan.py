@@ -19,16 +19,13 @@ DEFAULT_OUT = 'out/yes.txt'
 NUM_FEATURES = 5096
 NUM_CLASSES = 7881
 
-def get_args():
+def main():
     parser = argparse.ArgumentParser(description='Converts to MULAN formats')
     parser.add_argument('--classes-in-file', type=str, default=DEFAULT_IN_CLASSES_SPARSE)
     parser.add_argument('--features-in-file', type=str, default=DEFAULT_IN_FEATURES_SPARSE)
     parser.add_argument('--out-file', type=str, default=DEFAULT_OUT)
     parser.add_argument('--header', type=str, default=DEFAULT_OUT)
-    return parser.parse_args()
-
-def main():
-    args = get_args()
+    args = parser.parse_args()
 
     header = get_header(NUM_FEATURES, NUM_CLASSES)
 
