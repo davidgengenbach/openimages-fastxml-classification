@@ -14,7 +14,7 @@ ELEMENTS_PER_FOLD=$((${LINE_COUNT} / $FOLDS))
 
 echo "LineCount: $LINE_COUNT"
 
-for i in {1..$LINE_COUNT}; do
+for i in $(seq 1 $LINE_COUNT); do
     start=$(($i * $ELEMENTS_PER_FOLD))
     end=$(($start + $ELEMENTS_PER_FOLD))
     echo $start / $end
