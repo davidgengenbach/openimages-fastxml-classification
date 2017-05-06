@@ -4,7 +4,7 @@ import argparse
 
 def get_args():
     parser = argparse.ArgumentParser(description='Get time left')
-    parser.add_argument('count-file', type=str)
+    parser.add_argument('count_file', type=str)
     parser.add_argument('--img-count', type=int, default=170000)
     args = parser.parse_args()
     return args
