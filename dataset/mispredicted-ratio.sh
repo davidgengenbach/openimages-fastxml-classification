@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Retrieves for each of the mispredicted labels the number of right/wrong annotations and the ratio between these two.
+# Also saves all images with that label wrongfully attached.
+
 LABELS_MISPREDICTED="download/human_ann_2016_08/validation/labels_mispredicted_wc.csv"
 
 ALL_LABELS="download/human_ann_2016_08/validation/labels.csv"

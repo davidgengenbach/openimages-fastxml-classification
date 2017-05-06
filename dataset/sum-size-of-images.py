@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+'''
+Calculates the total size of all images in the dataset.
+'''
 
 import os
 import csv
