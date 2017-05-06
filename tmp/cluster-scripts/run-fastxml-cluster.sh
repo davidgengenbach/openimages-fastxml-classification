@@ -7,7 +7,7 @@ if [ "$DEBUG" == 1 ]; then
     set -x
 fi
 
-if [ "$MODE" == "" ]; then
+if [ -z "$MODE" ]; then
     MODE="train"
 fi
 
@@ -21,7 +21,8 @@ BIAS=$6
 LOG_LOSS_COEFF=$7
 MAX_LEAF=$8
 LBL_PER_LEAF=$9
-
+DATA_DIR=$10
+RESULTS_DIR=$11
 
 
 if [ -z "$NUM_THREADS"] ||
@@ -31,8 +32,10 @@ if [ -z "$NUM_THREADS"] ||
 [ -z "$BIAS"] ||
 [ -z "$LOG_LOSS_COEFF"] ||
 [ -z "$MAX_LEAF"] ||
-[ -z "$LBL_PER_LEAF"]; then
-    echo "Usage: $0 NUM_THREADS NUM_THREADS_TEST START_TREE NUM_TREE BIAS LOG_LOSS_COEFF MAX_LEAF LBL_PER_LEAF"
+[ -z "$LBL_PER_LEAF"] ||
+[ -z "$DATA_DIR"] ||
+[ -z "$RESULTS_DIR"]; then
+    echo "Usage: $0 NUM_THREADS NUM_THREADS_TEST START_TREE NUM_TREE BIAS LOG_LOSS_COEFF MAX_LEAF LBL_PER_LEAF DATA_DIR"
     exit
 fi
 
@@ -43,22 +46,21 @@ TRAIN_CMD="./fastXML_train"
 TEST_CMD="./fastXML_test"
 
 dataset="openimages"
-data_dir="/nfs/cluster_files/dgengenbach/fast_xml"
-results_dir="$data_dir/results"
-#model_dir="$EXEC_PATH/../Sandbox/Results/$dataset/model"
+#DATA_DIR="/nfs/cluster_files/dgengenbach/fast_xml"
+#results_dir="$DATA_DIR/results"
 
-train_features_file="${data_dir}/cpp.fastxml.features.train.txt"
-train_labels_file="${data_dir}/cpp.fastxml.classes.train.txt"
+train_features_file="${DATA_DIR}/cpp.fastxml.features.train.txt"
+train_labels_file="${DATA_DIR}/cpp.fastxml.classes.train.txt"
 
-test_features_file="${data_dir}/cpp.fastxml.features.test.txt"
-test_labels_file="${data_dir}/cpp.fastxml.classes.test.txt"
+test_features_file="${DATA_DIR}/cpp.fastxml.features.test.txt"
+test_labels_file="${DATA_DIR}/cpp.fastxml.classes.test.txt"
 
 SCORE_FILE_PREFIX="START_TREE__${START_TREE}__NUM_TREE__${NUM_TREE}__BIAS__${BIAS}__LOG_LOSS_COEFF__${LOG_LOSS_COEFF}__MAX_LEAF__${MAX_LEAF}__LBL_PER_LEAF__${LBL_PER_LEAF}"
 
-score_file_test="${results_dir}/${SCORE_FILE_PREFIX}_test_results.txt"
-score_file_train="${results_dir}/${SCORE_FILE_PREFIX}_train_results.txt"
+score_file_test="${RESULTS_DIR}/${SCORE_FILE_PREFIX}_test_results.txt"
+score_file_train="${RESULTS_DIR}/${SCORE_FILE_PREFIX}_train_results.txt"
 
-model_dir="$data_dir/models/$SCORE_FILE_PREFIX"
+model_dir="$RESULTS_DIR/model/$SCORE_FILE_PREFIX"
 mkdir "$model_dir"
 
 cd $EXEC_PATH
@@ -93,17 +95,33 @@ if [ "$MODE" == "test" ]; then
 fi
 
 
-# -T    num_thread      (default=1)
-#        Number of threads to use
-# -s    start_tree      (default=0)
-#        Starting tree index
-# -t    num_tree        (default=50)
-#        Number of trees to be grown
-# -b    bias        (default=1.0)
-#        Feature bias value, extre feature value to be appended
-# -c    log_loss_coeff      (default=1.0)
-#        SVM weight co-efficient
-# -l    lbl_per_leaf        (default=100)
-#        Number of label-probability pairs to retain in a leaf
-# -m    max_leaf        (default=10)
-#        Maximum allowed instances in a leaf node. Larger nodes are attempted to be split, and on failure converted to leaves
+# -T
+#       num_thread
+#       Number of threads to use
+#       (default=1)
+# -s
+#       start_tree
+#       Starting tree index
+#       (default=0)
+# -t
+#       num_tree
+#       Number of trees to be grown
+#       (default=50)
+# -b
+#       bias
+#       Feature bias value, extre feature value to be appended
+#       (default=1.0)
+# -c
+#       log_loss_coeff
+#       SVM weight co-efficient
+#       (default=1.0)
+# -l
+#       lbl_per_leaf
+#       Number of label-probability pairs to retain in a leaf
+#       (default=100)
+# -m
+#       max_leaf
+#       Maximum allowed instances in a leaf node.
+#       Larger nodes are attempted to be split,
+#       and on failure converted to leaves
+#       (default=10)

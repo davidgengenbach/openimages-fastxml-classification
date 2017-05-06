@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 images_count=$(wc -l < images.txt)
 
 while true; do
