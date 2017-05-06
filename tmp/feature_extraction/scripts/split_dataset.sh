@@ -9,6 +9,13 @@ if [ -z "$INPUT" ] || [ -z "$FOLDS" ]; then
 fi
 
 LINE_COUNT=$(cat $INPUT | wc -l)
+ELEMENTS_PER_FOLD=$((${LINE_COUNT} / $FOLDS))
 
-echo "YES${LINE_COUNT}YES"
-echo $((${LINE_COUNT} / $FOLDS))
+
+echo "LineCount: $LINE_COUNT"
+
+for i in {1..$LINE_COUNT}; do
+    start=$(($i * $ELEMENTS_PER_FOLD))
+    end=$(($start + $ELEMENTS_PER_FOLD))
+    echo $start / $end
+done
