@@ -35,7 +35,7 @@ if [ -z "$NUM_THREADS"] ||
 [ -z "$LBL_PER_LEAF"] ||
 [ -z "$DATA_DIR"] ||
 [ -z "$RESULTS_DIR"]; then
-    echo "Usage: $0 NUM_THREADS NUM_THREADS_TEST START_TREE NUM_TREE BIAS LOG_LOSS_COEFF MAX_LEAF LBL_PER_LEAF DATA_DIR"
+    echo "Usage: $0 num_threads num_threads_test start_tree num_tree bias log_loss_coeff max_leaf lbl_per_leaf data_dir results_dir"
     exit
 fi
 
