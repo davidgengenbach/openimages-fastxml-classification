@@ -28,8 +28,8 @@ def main():
                     found_error = True
                     print("\tError in {}: Comma count: {} on line {}".format(feature_file, line.count(','), idx))
                 counter += 1
-    print("Step: ", counter)
-    print("End!")
+        print("Step: ", counter)
+        print("End!")
 
 if __name__ == '__main__':
     main()
