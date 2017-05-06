@@ -20,5 +20,5 @@ for i in $(seq 0 $(($FOLDS - 1))); do
     if [ $i == $((FOLDS - 1)) ]; then
         end=$LINE_COUNT
     fi
-    sed "${start},\$!d;${end}q" $INPUT > $OUT_FOLDER/$INPUT.$i.txt
+    sed "${start},\$!d;${end}q" $INPUT > $OUT_FOLDER/$i.txt
 done
