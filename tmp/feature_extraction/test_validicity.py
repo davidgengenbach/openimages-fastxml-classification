@@ -19,8 +19,8 @@ def main():
 
     counter = 0
     for feature_file in feature_files:
+        found_error = False
         with open(feature_file, 'r') as f:
-           found_error = False
            for idx, line in enumerate(f):
                 if counter % args.step_size == 0 and counter != 0:
                     print('Step: ', counter)
@@ -28,8 +28,7 @@ def main():
                     found_error = True
                     print("\tError in {}: Comma count: {} on line {}".format(feature_file, line.count(','), idx))
                 counter += 1
-        print("Step: ", counter)
-        print("End!")
+        print("{}: {}".format('invalid' if found_error else 'valid', feature_file))
 
 if __name__ == '__main__':
     main()
