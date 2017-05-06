@@ -4,3 +4,4 @@ dump/data/images
 !.gitkeep
 dump/model
 dump/results.txt
+.nfs*
