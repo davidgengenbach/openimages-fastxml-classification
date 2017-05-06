@@ -4,7 +4,7 @@ from glob import glob
 import argparse
 
 def get_args():
-    parser = argparse.ArgumentParser(description='Test validicity of a feature set (')
+    parser = argparse.ArgumentParser(description='Test validicity of a feature set')
     parser.add_argument('feature-file-glob', type=str)
     parser.add_argument('--feature-size', type=int, default=5096)
     parser.add_argument('--step-size', type=int, default=10000)
@@ -27,7 +27,7 @@ def main():
                 if line.count(',') != args.feature_size and line.count(',') != 0:
                     found_error = True
                     print("\tError in {}: Comma count: {} on line {}".format(feature_file, line.count(','), line))
-             counter += 1
+                counter += 1
     print("Step: ", counter)
     print("End!")
 

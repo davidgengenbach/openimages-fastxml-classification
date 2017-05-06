@@ -5,10 +5,9 @@ import argparse
 
 def get_args():
     parser = argparse.ArgumentParser(description='desc')
-    parser.add_argument('--features-file', type=str, help="help", default='features.ids.txt')
-    parser.add_argument('--images-file', type=str, help="help", default='images.txt')
-    parser.add_argument('--images-prefix', type=str, help="help",
-                        default='/nfs/cluster_files/dgengenbach/feature_extraction/val_imgs/')
+    parser.add_argument('--features-file', type=str, help="features.ids.txt")
+    parser.add_argument('--images-file', type=str, help="images.txt")
+    parser.add_argument('--images-prefix', type=str, help="/nfs/cluster_files/dgengenbach/ml-praktikum/data/val_imgs/")
     args = parser.parse_args()
     return args
 
