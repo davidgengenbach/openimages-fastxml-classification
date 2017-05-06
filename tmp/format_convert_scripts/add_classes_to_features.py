@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Takes the features and adds the labels to them.
+Takes the features of an image and adds the attached labels to them.
 
 Input:
     d9103825a5288a15,-4.47296,...,3.31911
@@ -53,13 +53,10 @@ def write_features_with_labels_file(features_labels_file, labels, features):
             if iid not in labels:
                 print("ImageId has no positive labels: {}".format(iid))
                 labels_for_iid = []
-                # TODO UNCOMMENT! continue
+                continue
             else:
                 # The labels for this image
                 labels_for_iid = labels[iid]
-
-            
-            
 
             # Format: iid,feature1,...,featureN label1,...,labelN
             outfile.write(feature.strip() + ' ' + ','.join(labels_for_iid))
