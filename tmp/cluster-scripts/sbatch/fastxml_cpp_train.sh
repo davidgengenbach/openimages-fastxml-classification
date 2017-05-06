@@ -8,4 +8,4 @@
 #SBATCH -e output/job.train.%J.err
 
 ./run-cluster.sh train
-echo "FINISHED_SLURM__TRAIN"
+/nfs/cluster_files/dgengenbach/email_notification.sh "FINISHED_SLURM__TRAIN"

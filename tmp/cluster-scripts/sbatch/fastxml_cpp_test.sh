@@ -8,4 +8,4 @@
 #SBATCH -e output/job.test.%J.err
 
 ./run-cluster.sh test
-echo "FINISHED_SLURM__TEST"
+/nfs/cluster_files/dgengenbach/email_notification.sh "FINISHED_SLURM__TEST"

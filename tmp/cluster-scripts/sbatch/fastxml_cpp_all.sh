@@ -9,13 +9,13 @@
 
 timestamp=$(date +"%F__%R")
 
-alias notify="echo $@"
+alias email="/nfs/cluster_files/dgengenbach/email_notification.sh $@"
 
-notify "STARTING_SLURM__($timestamp)"
+email "STARTING_SLURM__($timestamp)"
 ./run-cluster.sh train
-notify "FINISHED_SLURM__TRAIN__($timestamp)"
+email "FINISHED_SLURM__TRAIN__($timestamp)"
 
 ./run-cluster.sh test
-notify "FINISHED_SLURM__TEST__($timestamp)"
+email "FINISHED_SLURM__TEST__($timestamp)"
 
-notify "FINISHED_SLURM__ALL__($timestamp)"
+email "FINISHED_SLURM__ALL__($timestamp)"
