@@ -7,3 +7,4 @@ dump/results.txt
 .nfs*
 data/*
 .ipynb_checkpoints/
+tmp/images
