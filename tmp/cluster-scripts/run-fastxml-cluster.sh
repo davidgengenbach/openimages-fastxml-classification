@@ -57,7 +57,7 @@ score_file_test="${RESULTS_DIR}/${SCORE_FILE_PREFIX}-results.test.txt"
 score_file_train="${RESULTS_DIR}/${SCORE_FILE_PREFIX}-results.train.txt"
 
 model_dir="$RESULTS_DIR/model/$SCORE_FILE_PREFIX"
-mkdir "$model_dir"
+mkdir -p "$model_dir"
 
 cd $EXEC_PATH
 
