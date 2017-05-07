@@ -8,6 +8,7 @@ def get_args():
     parser.add_argument('--features-file', type=str, help="features.ids.txt")
     parser.add_argument('--images-file', type=str, help="images.txt")
     parser.add_argument('--images-prefix', type=str, help="/nfs/cluster_files/dgengenbach/ml-praktikum/data/val_imgs/")
+    parser.add_argument('--done-file-out', type=str, help="done.new.txt")
     args = parser.parse_args()
     return args
 
@@ -20,7 +21,7 @@ def main():
               for x in get_file_splitted(args.images_file)}
     diff = list(set(images.keys()).intersection(set(features)))
 
-    with open('done.new.txt', 'w') as f:
+    with open(args.done_file_out, 'w') as f:
         f.write("\n".join([args.images_prefix + x + '.jpg' for x in diff]))
 
 
