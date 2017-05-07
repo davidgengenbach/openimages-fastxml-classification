@@ -13,16 +13,17 @@ fi
 
 echo "Mode: $MODE"
 
-NUM_THREADS=$2
-NUM_THREADS_TEST=$3
-START_TREE=$4
-NUM_TREE=$5
-BIAS=$6
-LOG_LOSS_COEFF=$7
-MAX_LEAF=$8
-LBL_PER_LEAF=$9
-DATA_DIR=$10
-RESULTS_DIR=$11
+DATA_DIR=$2
+RESULTS_DIR="$DATA_DIR/results"
+
+NUM_THREADS=$3
+NUM_THREADS_TEST=$4
+START_TREE=$5
+NUM_TREE=$6
+BIAS=$7
+LOG_LOSS_COEFF=$8
+MAX_LEAF=$9
+LBL_PER_LEAF=$10
 
 
 if [ -z "$NUM_THREADS"] ||
@@ -35,19 +36,14 @@ if [ -z "$NUM_THREADS"] ||
 [ -z "$LBL_PER_LEAF"] ||
 [ -z "$DATA_DIR"] ||
 [ -z "$RESULTS_DIR"]; then
-    echo "Usage: $0 num_threads num_threads_test start_tree num_tree bias log_loss_coeff max_leaf lbl_per_leaf data_dir results_dir"
+    echo "Usage: $0 data_dir num_threads num_threads_test start_tree num_tree bias log_loss_coeff max_leaf lbl_per_leaf"
     exit
 fi
 
 
-
-EXEC_PATH="/nfs/cluster_files/dgengenbach/fast_xml/cpp-FastXML_PfastreXML/FastXML"
+EXEC_PATH="/nfs/cluster_files/dgengenbach/ml-praktikum/fast_xml/cpp-FastXML_PfastreXML/FastXML"
 TRAIN_CMD="./fastXML_train"
 TEST_CMD="./fastXML_test"
-
-dataset="openimages"
-#DATA_DIR="/nfs/cluster_files/dgengenbach/fast_xml"
-#results_dir="$DATA_DIR/results"
 
 train_features_file="${DATA_DIR}/cpp.fastxml.features.train.txt"
 train_labels_file="${DATA_DIR}/cpp.fastxml.classes.train.txt"
@@ -55,10 +51,10 @@ train_labels_file="${DATA_DIR}/cpp.fastxml.classes.train.txt"
 test_features_file="${DATA_DIR}/cpp.fastxml.features.test.txt"
 test_labels_file="${DATA_DIR}/cpp.fastxml.classes.test.txt"
 
-SCORE_FILE_PREFIX="START_TREE__${START_TREE}__NUM_TREE__${NUM_TREE}__BIAS__${BIAS}__LOG_LOSS_COEFF__${LOG_LOSS_COEFF}__MAX_LEAF__${MAX_LEAF}__LBL_PER_LEAF__${LBL_PER_LEAF}"
+SCORE_FILE_PREFIX="start_tree__${START_TREE}__num_tree__${NUM_TREE}__bias__${BIAS}__log_loss_coeff__${LOG_LOSS_COEFF}__max_leaf__${MAX_LEAF}__lbl_per_leaf__${LBL_PER_LEAF}"
 
-score_file_test="${RESULTS_DIR}/${SCORE_FILE_PREFIX}_test_results.txt"
-score_file_train="${RESULTS_DIR}/${SCORE_FILE_PREFIX}_train_results.txt"
+score_file_test="${RESULTS_DIR}/${SCORE_FILE_PREFIX}-results.test.txt"
+score_file_train="${RESULTS_DIR}/${SCORE_FILE_PREFIX}-results.train.txt"
 
 model_dir="$RESULTS_DIR/model/$SCORE_FILE_PREFIX"
 mkdir "$model_dir"
