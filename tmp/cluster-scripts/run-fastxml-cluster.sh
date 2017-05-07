@@ -41,7 +41,7 @@ if [ -z "$NUM_THREADS"] ||
 fi
 
 
-EXEC_PATH="/nfs/cluster_files/dgengenbach/ml-praktikum/fast_xml/cpp-FastXML_PfastreXML/FastXML"
+EXEC_PATH="/nfs/cluster_files/dgengenbach/ml-praktikum/fastxml/cpp-FastXML_PfastreXML/FastXML"
 TRAIN_CMD="./fastXML_train"
 TEST_CMD="./fastXML_test"
 
