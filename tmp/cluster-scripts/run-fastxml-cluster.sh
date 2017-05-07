@@ -23,19 +23,19 @@ NUM_TREE=$6
 BIAS=$7
 LOG_LOSS_COEFF=$8
 MAX_LEAF=$9
-LBL_PER_LEAF=$10
+LBL_PER_LEAF=${10}
 
 
-if [ -z "$NUM_THREADS"] ||
-[ -z "$NUM_THREADS_TEST"] ||
-[ -z "$START_TREE"] ||
-[ -z "$NUM_TREE"] ||
-[ -z "$BIAS"] ||
-[ -z "$LOG_LOSS_COEFF"] ||
-[ -z "$MAX_LEAF"] ||
-[ -z "$LBL_PER_LEAF"] ||
-[ -z "$DATA_DIR"] ||
-[ -z "$RESULTS_DIR"]; then
+if  [ -z "$NUM_THREADS"] || \
+    [ -z "$NUM_THREADS_TEST"] || \
+    [ -z "$START_TREE"] || \
+    [ -z "$NUM_TREE"] || \
+    [ -z "$BIAS"] || \
+    [ -z "$LOG_LOSS_COEFF"] || \
+    [ -z "$MAX_LEAF"] || \
+    [ -z "$LBL_PER_LEAF"] || \
+    [ -z "$DATA_DIR"] || \
+    [ -z "$RESULTS_DIR"]; then
     echo "Usage: $0 data_dir num_threads num_threads_test start_tree num_tree bias log_loss_coeff max_leaf lbl_per_leaf"
     exit
 fi
