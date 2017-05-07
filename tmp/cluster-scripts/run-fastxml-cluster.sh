@@ -59,7 +59,7 @@ score_file_train="${RESULTS_DIR}/${SCORE_FILE_PREFIX}-results.train.txt"
 model_dir="$RESULTS_DIR/model/$SCORE_FILE_PREFIX"
 mkdir -p "$model_dir"
 
-echo "$(date "+%Y%m%d__%H%M%S") // $@" >> $model_dir/parameters.txt
+echo "STARTED $(date "+%Y%m%d__%H%M%S") // $@" >> $model_dir/info.txt
 
 
 cd $EXEC_PATH
@@ -93,6 +93,7 @@ if [ "$MODE" == "test" ]; then
         -T $NUM_THREADS_TEST
 fi
 
+echo "ENDED $(date "+%Y%m%d__%H%M%S") // $@" >> $model_dir/info.txt
 
 # -T
 #       num_thread
