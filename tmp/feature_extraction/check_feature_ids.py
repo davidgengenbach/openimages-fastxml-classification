@@ -38,7 +38,7 @@ def main():
 
     # done.txt with prefix etc.
     done = [args.image_prefix + img_dict[x] + '/' + x + '.jpg' for x in images & features]
-    with open(args.image_prefix, 'w') as f:
+    with open(args.done_file, 'w') as f:
         f.write("\n".join(done))
 
 
