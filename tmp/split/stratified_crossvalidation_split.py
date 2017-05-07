@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 '''
 Implements the stratified k-fold cross-validation split algorithm.
-See http://lpis.csd.auth.gr/publications/sechidis-ecmlpkdd-2011.pdf
+For more info, see http://lpis.csd.auth.gr/publications/sechidis-ecmlpkdd-2011.pdf
+
+TODO: See http://leo.ugr.es/MD-PGMs/ficheros_presentaciones/albacete3/SCVMLCGA.pdf
 
 Input: 
     A file in sparse class format. Each line represents a instance. Each string before ":" on that line is a class.
@@ -25,12 +27,12 @@ def stratified_cross_validation_split(instances, k=10, r=None):
     [2] https://de.slideshare.net/tsoumakas/on-the-stratification-of-multilabel-data
 
     Args:
-        instances (list): Is a list of lists. For example [[1, 2, 3], [4,5]] means that the first instance has labels [1,2,3] attached, and the second items has the labels [4,5].
+        instances (list): Is a list of lists. For example [[1, 2, 3], [4,5]] means that the first instance has labels [1,2,3] attached, and the second item has the labels [4,5].
         k (int, optional): The number of folds
         r (None, optional): Weighting of sets. See paper
 
     Returns:
-        list: A list with k lists. The items in one of the k lists are the indices of the instances. So if a list is returned where the first list is [4,1,5] the first set has the items [4,1,5] attached from instances.
+        list: A list with k lists. The items in one of the k lists are the indices of the instances. So when the list [[1, 3], [2,5]] is returned, the first set has the items [1, 3] and the second set has [2, 5] as instances. The number in the set are the indices of the instance in the "instances" parameter.
     """
     labels = get_all_labels(instances)
 
@@ -157,7 +159,7 @@ def get_lines_of_file(file, strip_empty=True):
 def get_args():
     import argparse
     parser = argparse.ArgumentParser(
-        description='Create a stratified cross-validation see (see http://lpis.csd.auth.gr/publications/sechidis-ecmlpkdd-2011.pdf)')
+        description='Create stratified k-fold cross-validation sets')
     parser.add_argument('--input_file', type=str, default='cpp.fastxml.classes.txt')
     parser.add_argument('--out_file', type=str, default='out/sets.json')
     parser.add_argument('--dont_skip_header', action='store_true')

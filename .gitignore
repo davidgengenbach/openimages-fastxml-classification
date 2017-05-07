@@ -8,3 +8,4 @@ dump/results.txt
 data/*
 .ipynb_checkpoints/
 tmp/images
+paper/*
