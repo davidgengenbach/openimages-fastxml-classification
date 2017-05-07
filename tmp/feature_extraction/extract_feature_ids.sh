@@ -5,7 +5,8 @@ OUT=$1
 shift
 IN=$@
 
-if [ -z "$IN" ]; then
+if [ -z "$IN" ] || \
+   [ -z "$OUT" ] || \; then
     echo "Usage: $0 feature.ids.txt features.fc8.*.txt"
     exit 1
 fi
