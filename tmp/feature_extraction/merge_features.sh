@@ -14,7 +14,7 @@ echo > $OUT
 
 for file in $IN; do
     if [ "$file" != "$OUT" ]; then
-        cat $file | grep -v "^$" >> $OUT
+        cat $file >> $OUT
     fi
 done
 
