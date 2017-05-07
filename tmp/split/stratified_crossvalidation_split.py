@@ -100,6 +100,7 @@ def main():
     import os
     import pickle
     import functools
+    import json
     args = get_args()
 
     pickle_filename = args.input_file + '.pickle'
@@ -123,12 +124,8 @@ def main():
     # Check that all instances are in a set (= no missing instances in splitted sets)
     assert(sum([len(x) for x in sets]) == len(instances))
 
-    for idx, elements in enumerate(sets):
-        print('Set {}: {}'.format(idx, len(elements)))
-        set_filename = '{}/set.{}.{}.txt'.format(args.out_folder, idx, args.input_file.replace('/', '__'))
-        with open(set_filename, 'w') as f:
-            f.write(" ".join(sorted([str(x) for x in elements])))
-
+    with open(args.out_file, 'w') as f:
+        json.dump(sets, f, indent = 4)
 
 def get_all_labels(instances):
     all_labels = set()
@@ -151,11 +148,11 @@ def get_args():
     parser = argparse.ArgumentParser(
         description='Create a stratified cross-validation see (see http://lpis.csd.auth.gr/publications/sechidis-ecmlpkdd-2011.pdf)')
     parser.add_argument('--input_file', type=str, default='cpp.fastxml.classes.txt')
-    parser.add_argument('--out_folder', type=str, default='out/')
+    parser.add_argument('--out_file', type=str, default='out/sets.json')
     parser.add_argument('--dont_skip_header', action='store_true')
     parser.add_argument('--k', type=int, default=10)
     args = parser.parse_args()
-    args.out_folder = args.out_folder[0:-1] if args.out_folder.endswith('/') else args.out_folder
+    #args.out_folder = args.out_folder[0:-1] if args.out_folder.endswith('/') else args.out_folder
     return args
 
 if __name__ == '__main__':
