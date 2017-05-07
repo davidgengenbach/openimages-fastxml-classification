@@ -17,5 +17,5 @@ python3 test_vgg16.py \
     --images-path $DATA_PATH/val_imgs/ \
     --done-file $DATA_PATH/done.$FEATURE_TO_EXTRACT.txt \
     --features-file $DATA_PATH/features.$FEATURE_TO_EXTRACT.txt \
-    --batch-size 64 \
+    --batch-size 32 \
     --extract-layers $FEATURE_TO_EXTRACT
