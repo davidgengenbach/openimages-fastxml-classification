@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-Splits a file according to indices1
+Splits a file according to indices
 
 Input: 
     Multiple files (= the sets) with the instance indices

@@ -9,8 +9,8 @@ Input:
     ...
     123:1 99:1 10:1
 Output:
-    Mulitple files. 
-    1 4 1
+    Mulitple files. TODO 
+    1 4 2
 '''
 
 import numpy as np
@@ -19,9 +19,26 @@ from time import time
 
 
 def stratified_cross_validation_split(instances, k=10, r=None):
+    """Creates a stratified cross-validation split of the given dataset as described in [1].
+
+    [1] http://lpis.csd.auth.gr/publications/sechidis-ecmlpkdd-2011.pdf
+
+    Args:
+        instances (list): Is a list of lists. For example [[1, 2, 3], [4,5]] means that the first instance has labels [1,2,3] attached, and the second items has the labels [4,5].
+        k (int, optional): The number of folds
+        r (None, optional): Weighting of sets. See paper
+
+    Returns:
+        list: A list with k lists. The items in one of the k lists are the indices of the instances. So if a list is returned where the first list is [4,1,5] the first set has the items [4,1,5] attached from instances.
+    """
     labels = get_all_labels(instances)
+
     num_labels = len(labels)
     num_instances = len(instances)
+
+    assert(num_labels > 0)
+    assert(num_instances > 0)
+    assert(k > 0 and k <= len(num_instances))
 
     if not r:
         r = [1 / k] * k
@@ -92,28 +109,20 @@ def stratified_cross_validation_split(instances, k=10, r=None):
                         del D[label]
                 c_2[label][m] -= 1
             c_1[m] -= 1
-    print("StratifyIterations needed: {}".format(counter + 1))
+    print("StratifyIterations: {}".format(counter + 1))
     return S
 
 
 def main():
     import os
-    import pickle
     import functools
     import json
     args = get_args()
 
-    pickle_filename = args.input_file + '.pickle'
-    if os.path.exists(pickle_filename):
-        with open(pickle_filename, 'rb') as f:
-            instances = pickle.load(f)
-    else:
-        input_file = get_lines_of_file(args.input_file)
-        if not args.dont_skip_header:
-            input_file = input_file[1:]
-        instances = [parse_line(x) for x in input_file]
-        with open(pickle_filename, 'wb') as f:
-            pickle.dump(instances, f)
+    input_file = get_lines_of_file(args.input_file)
+    if not args.dont_skip_header:
+        input_file = input_file[1:]
+    instances = [parse_line(x) for x in input_file]
 
     sets = stratified_cross_validation_split(instances, k=args.k)
     all_instances = functools.reduce(lambda acc, x: acc + x, sets, [])
@@ -125,7 +134,8 @@ def main():
     assert(sum([len(x) for x in sets]) == len(instances))
 
     with open(args.out_file, 'w') as f:
-        json.dump(sets, f, indent = 4)
+        json.dump(sets, f, indent=4)
+
 
 def get_all_labels(instances):
     all_labels = set()
@@ -152,7 +162,6 @@ def get_args():
     parser.add_argument('--dont_skip_header', action='store_true')
     parser.add_argument('--k', type=int, default=10)
     args = parser.parse_args()
-    #args.out_folder = args.out_folder[0:-1] if args.out_folder.endswith('/') else args.out_folder
     return args
 
 if __name__ == '__main__':
