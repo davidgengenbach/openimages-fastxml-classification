@@ -11,5 +11,6 @@ if [ -z "$IN" ] || \
 fi
 
 for id in $(sort $IN | uniq -c | sort -r | grep "2 " | cut -d " " -f 8); do
-    cat $IN_IMAGES | grep "$id"
+        feature=$(cat $IN_IMAGES | grep "$id" | head -n1)
+        echo $id, $(echo $feature | cut -d , -f 1)
 done
