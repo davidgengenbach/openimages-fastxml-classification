@@ -19,9 +19,10 @@ from time import time
 
 
 def stratified_cross_validation_split(instances, k=10, r=None):
-    """Creates a stratified cross-validation split of the given dataset as described in [1].
+    """Creates a stratified cross-validation split of the given dataset as described in [1,2].
 
     [1] http://lpis.csd.auth.gr/publications/sechidis-ecmlpkdd-2011.pdf
+    [2] https://de.slideshare.net/tsoumakas/on-the-stratification-of-multilabel-data
 
     Args:
         instances (list): Is a list of lists. For example [[1, 2, 3], [4,5]] means that the first instance has labels [1,2,3] attached, and the second items has the labels [4,5].
