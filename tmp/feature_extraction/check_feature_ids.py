@@ -13,7 +13,7 @@ def get_args():
     parser.add_argument('--done-file', type=str,
                         help="A text file with only the image ids in it that are also done", default='done')
     parser.add_argument('--image-prefix', type=str, help="A text file with only the image ids in it that are also done",
-                        default='/nfs/cluster_files/dgengenbach/feature_extraction/val_imgs/')
+                        default='/nfs/cluster_files/dgengenbach/ml-praktikum/data/val_imgs/')
     args = parser.parse_args()
     return args
 
