@@ -58,7 +58,8 @@ score_file_train="${RESULTS_DIR}/${SCORE_FILE_PREFIX}-results.train.txt"
 
 model_dir="$RESULTS_DIR/model/$SCORE_FILE_PREFIX"
 mkdir -p "$model_dir"
-echo "$@" > $model_dir/parameters.txt
+
+echo "$(date "+%Y%m%d__%H%M%S") // $@" >> $model_dir/parameters.txt
 
 
 cd $EXEC_PATH
