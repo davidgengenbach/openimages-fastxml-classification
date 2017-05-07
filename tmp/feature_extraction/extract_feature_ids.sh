@@ -15,7 +15,8 @@ echo > $TMP
 
 for file in $IN; do
 	if [ "$file" != "$OUT" ]; then
-		cat $file | cut -d , -f 1 | grep -v "^$" >> $TMP
+        echo "CurrentFile: $file"
+		cat $file | cut -d , -f 1 >> $TMP
 	fi
 done
 
