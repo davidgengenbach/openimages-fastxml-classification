@@ -30,7 +30,7 @@ def main():
         for idx, split_point in enumerate(split_points):
             last = 0 if idx == 0 else split_points[idx - 1]
             part = parts[last + 1:split_point + 1]
-            files[idx].write(','.join([iid] + part))
+            files[idx].write(','.join([iid] + part) + '\n')
 
     for file in files:
         file.close()
