@@ -10,7 +10,7 @@ if [ -z "$IN" ] || \
     exit 1
 fi
 
-for id in $(sort $IN | uniq -c | sort -r | grep "2 " | cut -d " " -f 8); do
+for id in $(sort $IN | uniq -c | sort -r | grep -v " 1 " | cut -d " " -f 8); do
         feature=$(cat $IN_IMAGES | grep -n -m1 "$id")
         line=$(echo $feature | cut -d ":" -f 1)
         line_plus_one=$(($line + 1))
