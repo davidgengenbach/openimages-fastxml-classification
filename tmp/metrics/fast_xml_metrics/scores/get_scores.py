@@ -55,13 +55,14 @@ def get_labels_of_file(file, force_reload = False):
 def get_scores(y_true, y_pred_filename, labels):
     y_pred = get_labels_of_file(y_pred_filename, force_reload = False)
     assert(len(y_pred) == len(y_true)) #, 'Length of y_pred and y_true must be same! train/test wrong?')
-    mlb = MultiLabelBinarizer().fit([range(len(labels))])
+    mlb = MultiLabelBinarizer().fit([range(len(labels) + 1)])
     y_pred_t = mlb.transform(y_true)
     y_true_t = mlb.transform(y_pred)
     return (
-            metrics.classification_report(y_true_t, y_pred_t),
-            metrics.f1_score(y_true_t, y_pred_t, average = 'macro'),
-            metrics.coverage_error(y_true_t, y_pred_t)
+            #metrics.classification_report(y_true_t, y_pred_t),
+            #metrics.f1_score(y_true_t, y_pred_t, average = 'macro'),
+            metrics.hamming_loss(y_true_t, y_pred_t)
+            #metrics.coverage_error(y_true_t, y_pred_t)
     )
 
 
@@ -74,8 +75,8 @@ y_true_test = get_labels_of_file('reference/classes.real.test.txt', False)
 
 # In[70]:
 
-for file in glob('results/*_results.txt'):
-    y_true_used = y_true_test if file.count('test_results') == 1 else y_true_train
+for file in glob('results/**/*-results.*.txt'):
+    y_true_used = y_true_test if file.count('test') == 1 else y_true_train
     file_size = os.path.getsize(file)
     print("# {} ({})".format(file, sizeof_fmt(file_size)))
     sys.stdout.flush()

@@ -4,3 +4,6 @@
 [submodule "vgg/other/vgg16-caffe"]
 	path = vgg/other/vgg16-caffe
 	url = git@github.com:davidgengenbach/vgg-caffe.git
+[submodule "vgg/other/vgg-caffe"]
+	path = vgg/other/vgg-caffe
+	url = git@github.com:davidgengenbach/vgg-caffe.git

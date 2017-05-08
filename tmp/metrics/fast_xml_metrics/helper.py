@@ -8,7 +8,7 @@ import pickle
 from scipy import sparse, io
 
 
-def get_classes(file, verbose=False, eps=1e-10, test=False, re_read=False):
+def get_classes(file, verbose=False, eps=1e-10, test=False, re_read=False, save_pickle = False):
     file_parts = file.split('/')
     file_parts.append(file_parts[-1] + '.pickle')
     file_parts[-2] = 'pickle'
@@ -49,7 +49,8 @@ def get_classes(file, verbose=False, eps=1e-10, test=False, re_read=False):
                 indices.append(clazz_idx)
 
         mat = scipy.sparse.csc_matrix((data, (indptr, indices)), shape=(num_elements, num_classes), dtype=np.float32)
-        pickle.dump(mat, open(pickle_file, 'wb'), pickle.HIGHEST_PROTOCOL)
+        if save_pickle:
+            pickle.dump(mat, open(pickle_file, 'wb'), pickle.HIGHEST_PROTOCOL)
     return mat
 
 

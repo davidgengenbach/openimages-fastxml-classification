@@ -20,7 +20,8 @@ def main():
     files = [open('{}/split.{}.txt'.format(args.out_folder, x), 'w') for x in range(len(split_points) + 1)]
     comma_count = None
     for line in in_file:
-        if line.strip() == '':
+        line = line.strip()
+        if line == '':
             continue
         if not comma_count:
             comma_count = line.count(',')
@@ -30,7 +31,7 @@ def main():
         for idx, split_point in enumerate(split_points):
             last = 0 if idx == 0 else split_points[idx - 1]
             part = parts[last + 1:split_point + 1]
-            files[idx].write(','.join([iid] + part).strip() + '\n')
+            files[idx].write(','.join([iid] + part) + '\n')
 
     for file in files:
         file.close()

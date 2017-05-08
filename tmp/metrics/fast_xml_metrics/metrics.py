@@ -3,8 +3,7 @@
 Calculates metrics on a given FastXML result file.
 '''
 
-import tensorflow as tf
-import tensorflow.contrib.losses
+
 import helper
 import sklearn.metrics
 import numpy as np
@@ -29,19 +28,21 @@ def get_args():
     parser.add_argument('--k', default=5)
     parser.add_argument('--prune-to', default=0.1, type=float)
     parser.add_argument('--eval-tf', default=False, type=bool)
+    parser.add_argument('--use-pickle', default=False, type=bool)
     return parser.parse_args()
 
 
 def main():
     args = get_args()
 
-    init_tf(args.num_labels)
+    if args.eval_tf:
+        init_tf(args.num_labels)
 
-    real_sp = helper.get_classes(args.in1)
+    real_sp = helper.get_classes(args.in1, re_read = not args.use_pickle)
     results = []
     for file in glob(args.in2):
         print('# {}'.format(file))
-        pred_sp = helper.get_classes(file)
+        pred_sp = helper.get_classes(file, re_read = not args.use_pickle)
         assert(real_sp.shape == pred_sp.shape)
 
         results = []
@@ -52,7 +53,7 @@ def main():
             #pruned_precision_at = precision_at_k(real, pred, prune_to=args.prune_to, k=args.k)
             #print('Precision: {:.4f}\nPrecisionPruned: {:.4f}'.format(precision_at, pruned_precision_at))
             #results.append((precision_at, pruned_precision_at))
-            results.append((precision_at))
+            results.append(precision_at)
             # Logloss
             if args.eval_tf:
                 log_loss = eval_tf(real, pred)
@@ -86,7 +87,7 @@ def precision_at_k(real, pred, k=5, prune_to=None):
         # if prune_to:
         #    b[b < prune_to] = 0
         similar = set(real_classes) & set(pred_classes_k)
-        top_k = len(similar) / float(k)
+        top_k = len(similar) / min(float(k), len(real_classes))
         top_ks.append(top_k)
     return sum(top_ks) / len(top_ks)
 
@@ -98,6 +99,8 @@ def eval_tf(real, pred):
 
 
 def init_tf(num_labels):
+    import tensorflow as tf
+    import tensorflow.contrib.losses
     global predictions, labels, log_loss, sess, accuracy1, update_op1, accuracy2, accuracy3
     predictions = tf.placeholder(tf.float32, shape=(None, num_labels))
     labels = tf.placeholder(tf.float32, shape=(None, num_labels))

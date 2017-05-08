@@ -41,7 +41,7 @@ def stratified_cross_validation_split(instances, k=10, r=None):
 
     assert(num_labels > 0)
     assert(num_instances > 0)
-    assert(k > 0 and k <= len(num_instances))
+    assert(k > 0 and k <= num_instances)
 
     if not r:
         r = [1 / k] * k

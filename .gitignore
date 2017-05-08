@@ -9,3 +9,5 @@ data/*
 .ipynb_checkpoints/
 tmp/images
 paper/*
+*.npy
+fastxml/cpp-FastXML_PfastreXML/FastXML/fastXML_{test,train}
