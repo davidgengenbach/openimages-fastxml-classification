@@ -12,6 +12,7 @@ fi
 lines=""
 for id in $(sort $IN | uniq -c | sort -r | grep -v " 1 " | cut -d " " -f 8); do
         feature=$(cat $IN | grep -n -m1 "$id")
+        echo $id
         line=$(echo $feature | cut -d ":" -f 1)
         line_plus_one=$(($line + 1))
         lines="$lines $line"
@@ -23,4 +24,4 @@ for id in $(sort $IN | uniq -c | sort -r | grep -v " 1 " | cut -d " " -f 8); do
         #echo $feature >> $IN_IMAGES
 done
 
-echo $lines
+#echo $lines
