@@ -1,7 +1,22 @@
-# Dataset
+# Training a multi-label FastXML classifier on the OpenImages dataset
+
 [OpenImages Dataset](https://github.com/openimages/dataset)
 
-## images
+## Used architecture
+
+<p align="center">
+    <img src="other/architecture.png" />
+</p>
+
+## Instructions
+
+```bash
+# TODO
+```
+
+## Dataset
+
+### images
 - CSV Headers
     - 1  ImageID
     - 2  Subset
@@ -21,7 +36,7 @@
     - Total:      167.057
     - Size:       309.9 GB
 
-## annotations
+### annotations
 - CSV Headers
     - 1 ImageID
     - 2 Source
