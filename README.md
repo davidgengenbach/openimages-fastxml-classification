@@ -10,9 +10,108 @@
 
 ## Instructions
 
+### Download images, prepare repo
+Download the vgg models, annotations and initialize the submodules:
 ```bash
-# TODO
+./bootstrap.sh
 ```
+
+See the `bootstrap.sh` for options.
+
+### Download images
+Download the images from this [torrent](https://github.com/openimages/dataset/issues/11#issuecomment-257250800) to a `$IMAGES_FOLDER` of your choice.
+
+### Extract image ids
+Extract the `images.txt` with the image ids by:
+```bash
+# $IMAGES_FOLDER is the folder where you downloaded the torrent
+# $DATA_PATH is the folder where in the next step the features get extracted to
+find $IMAGES_FOLDER -name '*.jpg' > $DATA_PATH/images.txt
+```
+
+### VGG16 feature extraction
+Run the vgg16 feature extraction by:
+```bash
+./tmp/cluster_scripts/run-vgg-extraction.sh fc6,fc7
+```
+
+You have to adapt the script first!
+
+The first parameter to the `run-vgg-extraction.sh` script specifies the layers to be extracted, seperated by comma (eg. in the above case fc6 and fc7).
+
+After executing this script the features will reside in the data folder (see script).
+The filename is `features.LAYERS_TO_BE_EXTRACTED.txt`.
+It is an CSV where the first column is the file id, the following columns are the features.
+
+### Format change
+The format of the VGG16 feature extraction is a CSV with the image ids and the features.
+
+To train the __FastXML__ classifier with these features, the format has to be changed to the sparse matrix format for __FastXML__.
+
+First you have to extract the annotations:
+```bash
+./dataset/extract-csv-columns.sh dataset/download/human_ann_2016_08/validation/labels.csv 1,3
+grep -v ",0\.0" dataset/download/human_ann_2016_08/validation/labels_1_3.csv > dataset/download/human_ann_2016_08/validation/labels_1_3_correct.csv
+```
+The imageid/labels pairs will now reside in `dataset/download/human_ann_2016_08/validation/labels_1_3_correct.csv`.
+
+Now add the classes to the features.
+```bash
+./tmp/format_convert_scripts/add_classes_to_features.py \
+    --features-file $IN_FEATURES_FILE \
+    --features-labels-file $OUT_FEATURES_WITH_CLASSES \
+    --labels-npy dataset/download/human_ann_2016_08/validation/labels_1_3_correct.csv.npy \
+    --labels dataset/download/human_ann_2016_08/validation/labels_1_3_correct.csv
+```
+`$IN_FEATURES_FILE`: the features from the feature extraction step (eg. `features.LAYERS_TO_BE_EXTRACTED.txt`).
+
+`$OUT_FEATURES_WITH_CLASSES`: the file where the imageid/features/classes CSVs are saved to.
+
+See the script `./tmp/format_convert_scripts/add_classes_to_features.py` for more options and explanations.
+
+Extract the classes from the annotations:
+```bash
+cut -d , -f 1 dataset/download/human_ann_2016_08/validation/labels.csv | sort | uniq > dataset/download/human_ann_2016_08/validation/labels.sorted.csv
+```
+
+Now the format can be changed to the __FastXML__ format:
+```bash
+./tmp/format_convert_scripts/cpp_fastxml_format.py  \
+    --features-labels-file $OUT_FEATURES_WITH_CLASSES \
+    --classes-sorted-file dataset/download/human_ann_2016_08/validation/labels.sorted.csv \
+    --features-out-file $OUT_FEATURES_FASTXML \
+    --classes-out-file $OUT_CLASSES_FASTXML
+```
+See script for explanation.
+
+To convert to the __MULAN__ format:
+```bash
+./tmp/format_convert_scripts/convert_to_mulan.py \
+    --classes-in-file $OUT_CLASSES_FASTXML \
+    --features-in-file $OUT_FEATURES_FASTXML \
+    --out-file $OUT_MULAN
+```
+See script for explanation.
+
+### Train FastXML classifier
+Now train the cpp classifier:
+```bash
+./tmp/cluster_scripts/run-fastxml-cluster.sh \
+    $DATA_DIR \
+    $NUM_THREADS \
+    $NUM_THREADS_TEST \
+    $START_TREE \
+    $NUM_TREE \
+    $BIAS \
+    $LOG_LOSS_COEFF \
+    $MAX_LEAF \
+    $LBL_PER_LEAF
+```
+`$DATA_DIR`: the directory where the classes and features reside (eg. `$OUT_FEATURES_FASTXML` and `$OUT_CLASSES_FASTXML` from the last step).
+
+See the report for explanations for the other FastXML hyperparameters.
+
+See the script `./tmp/cluster_scripts/run-fastxml-cluster.sh` for the functionality.
 
 ## Dataset
 
