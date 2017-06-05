@@ -10,8 +10,10 @@
 
 ## Instructions
 
-### Download images, prepare repo
-Download the vgg models, annotations and initialize the submodules:
+If you have further questions about the instructions or in case of errors, please open an issue!
+
+### Download images, prepare repository
+Download the VGG models, annotations and initialize the submodules:
 ```bash
 ./bootstrap.sh
 ```
@@ -185,8 +187,6 @@ wc -l $FILE
 **Extract 4th column**
 
 cat $FILE | cut -d , -f 4 > $NEW_FILE
-
-**http://bconnelly.net/working-with-csvs-on-the-command-line/**
 
 [working-with-data-on-the-command-line](http://www.datamazing.co.uk/2014/01/25/working-with-data-on-the-command-line)
 
