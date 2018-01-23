@@ -2,6 +2,8 @@
 
 [OpenImages Dataset](https://github.com/openimages/dataset)
 
+[Technical Report](https://www.ke.tu-darmstadt.de/lehre/arbeiten/studien/2017/Gengenbach_David.pdf)
+
 ## Used architecture
 
 <p align="center">
